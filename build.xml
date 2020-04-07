@@ -1,0 +1,44 @@
+<project name="LABGUI_3" default="run" basedir=".">
+
+    <target name="path">
+        <property name="srcDir" value="${basedir}\src"/>
+        <property name="jarDir" value="${basedir}\jar"/>
+    </target>
+
+    <target name="compile" depends="path">
+        <echo> Compile Subclass</echo>
+        <javac destdir="${srcDir}"
+                includeantruntime="false">
+            <src path="${srcDir}"/>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <echo> Make jar Subclass</echo>
+        <jar jarfile="${jarDir}\Subclass.jar">
+            <fileset dir="${srcDir}"/>
+        </jar>
+    </target>
+
+    <target name="compile_main" depends="jar">
+        <echo> Compile JFrameTest</echo>
+        <javac destdir="${srcDir}"
+                includeantruntime="false">
+            <src path="${srcDir}"/>
+        </javac>
+    </target>
+
+    <target name="jar_main">
+        <echo> Make jar JFrameTest</echo>
+        <jar jarfile="${jarDir}\JFrameTest.jar" basedir="${srcDir}">
+            <manifest>
+                <attribute name="Main-Class" value="JFrameTest"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="compile_main,jar_main">
+            <java jar="${jarDir}\JFrameTest.jar" fork="true"/>
+    </target>
+  
+</project>
